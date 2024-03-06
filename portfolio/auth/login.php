@@ -1,14 +1,11 @@
-
 <?php
 session_start();
 include '../path.php';
 include ROOT_PATH . '/components/header.php';
-include ROOT_PATH . '/functions/functions.php';
 
 if (isset($_POST['submit'])) {
   $pseudo_saisi = htmlspecialchars($_POST['pseudo']);
   $password_saisi = htmlspecialchars($_POST['password']);
-
   if (empty($pseudo_saisi)) {
     $_SESSION['pseudo'] = "Veuillez entrer un pseudo valide";
   }
@@ -37,7 +34,7 @@ if (isset($_POST['submit'])) {
     <div>
       <label for="email" class="">Pseudo:</label>
       <div class="col-sm-10">
-        <input type="pseudo" name="pseudo" class="" id="psedonyme"><br>
+        <input type="pseudo" name="pseudo" class="" id="psedonyme" autocomplete="off"><br>
         <?php if (isset($_SESSION['pseudo'])): ?>
           <span style="color:red;">
             <?= $_SESSION['pseudo']; ?>
@@ -49,7 +46,7 @@ if (isset($_POST['submit'])) {
     <div>
       <label for="password" class="">Mot de passe:</label>
       <div class="">
-        <input type="password" name="password" class="password" id=""><br>
+        <input type="password" name="password" class="password" id="" autocomplete="off"><br>
         <?php if (isset($_SESSION['password'])): ?>
           <span style="color:red;">
             <?= $_SESSION['password']; ?>
@@ -62,4 +59,3 @@ if (isset($_POST['submit'])) {
       </div>
   </form>
 </div>
-

@@ -1,46 +1,55 @@
 <?php
+session_start();
 include '../../path.php';
 include ROOT_PATH . '/components/header.php';
-include ROOT_PATH . '/functions/functions.php';
 
+destroyingSession();
+$erreur = [];
 if (isset($_POST['submit_btn'])) {
   $titre = $_POST['titre'];
   $description = $_POST['description'];
   $creat_at = $_POST['creat_at'];
-  $erreur = [];
-  $image = "";
-  if (empty($titre) || !preg_match('/^[a-zA-Z]+$/', $titre)) {
-    $erreur['titre'] = "Veuillez entrer un titre valide";
+  $image_name = $_FILES['image']['name']; // nom de notre fichier
+  $image_tmp_name = $_FILES['image']['tmp_name']; // dossier temporaire
+  $image_error = $_FILES['image']['error']; // valeur d'erreur de notre image
+
+
+
+  if (empty($titre)) {
+    $erreur['titre'] = "Le titre est obligatoire";
   }
   if (empty($description)) {
-    $erreur['description'] = "Veuillez entrer une description";
+    $erreur['description'] = "La description est obligatoire";
   }
   if (empty($creat_at)) {
-    $erreur['creat_at'] = "Veuillez entrer une date";
+    $erreur['creat_at'] = "La date est obligatoire";
   }
-  if (empty($image)) {
-    $erreur['image'] = "Veuillez entrer une image";
+  if (empty($image_name)) {
+    $erreur['image'] = "L'image est obligatoire";
   }
-  if (empty($erreur)) {
-    $stmt = $pdo->prepare('INSERT INTO projects(titre, description, creat_at, image) VALUES(?, ?, ?, ?)');
-    $stmt->execute([$titre, $description, $creat_at, $image]);
-    $image_name = $_FILES['product_image']['name'];
-    //On spécifie le dossier de destination du stockage des image
-    $destination = ROOT_PATH . "/upload" . $image_name;
-    //On récupère le stockage temporaire de l'image
-    $tmp_name = $_FILES["product_image"]["tmp_name"];
-    //On déplace l'image du dossier temporaire vers le dossier de destination
-    $result = move_uploaded_file($tmp_name, $destination);
-    if ($result) {
-      $image = $image_name;
+  // récupérer des informations sur notre image
+  if (!$image_error === 0) {
+    $erreur['image'] = "Erreur de téléchargement de l'image";
+  }
 
-      $pdo = getPdo();
-      // Insertion des données dans la table marque
-      $req = "INSERT INTO projets(titre, description, create_at, user_id, photo) VALUES (?, ?, ?, ?, ?)";
-      $statement = $pdo->prepare($req);
-      $statement->execute([$titre, $description, $creat_at, $image]);
+  if (count($erreur) === 0){
 
-    }
+    // Enregistrer l'image dans notre dossier uploads
+    $destination = ROOT_PATH . "/upload/" . $image_name; // uploads/1.png
+    move_uploaded_file($image_tmp_name, $destination);
+
+    $pdo = getPdo();
+    $req = $pdo->prepare('INSERT INTO projets (titre, description, created_at, photo, user_id) 
+              VALUES (:titre, :description, :created_at, :url, :user_id)');
+
+    $req->bindValue(':titre', $titre);
+    $req->bindValue(':description', $description);
+    $req->bindValue(':created_at', $creat_at);
+    //$req->bindValue(':url', $destination);
+    $req->bindValue(':url', $image_name);
+    $req->bindValue(':user_id', $_SESSION['user']['id']);
+    $req->execute();
+
   }
 }
 ?>
@@ -63,38 +72,48 @@ if (isset($_POST['submit_btn'])) {
   <div class="row">
     <div class="col-12 col-md-8 mx-auto">
       <!-- Votre formulaire ici -->
-      <form method="post" action="">
+      <form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>" enctype="multipart/form-data">
         <div>
           <label class="form-label">Titre</label>
           <input type="text" name="titre" class="form-control" placeholder="javascript">
-          <?php if (isset($erreur['titre'])): ?><br>
-            <span style="color: red;"><?= $erreur['titre'] ?></span>
+          <?php if (isset($erreur['titre'])): ?>
+            <p class="text-danger">
+              <?= $erreur['titre'] ?>
+            </p>
           <?php endif; ?>
         </div>
+
         <div>
           <label for="file" class="form-label">Télécharger une image:</label><br>
           <input type="file" name="image">
-          <?php if (isset($erreur['image'])): ?><br>
-            <span style="color: red;"><?= $erreur['image'] ?></span>
+          <?php if (isset($erreur['image'])): ?>
+            <p class="text-danger">
+              <?= $erreur['image'] ?>
+            </p>
           <?php endif; ?>
         </div>
         <div>
           <label class="form-label">Indiquer la date</label><br>
           <input type="date" name="creat_at"><br>
           <?php if (isset($erreur['creat_at'])): ?>
-            <span style="color: red;"><?= $erreur['creat_at'] ?></span>
+            <p class="text-danger">
+              <?= $erreur['creat_at'] ?>
+            </p>
           <?php endif; ?>
         </div>
+
         <div>
           <label for="description" class="form-label">Description</label>
           <textarea class="form-control" name="description" rows="3"></textarea>
           <?php if (isset($erreur['description'])): ?>
-            <span style="color: red;"><?= $erreur['description'] ?></span>
+            <p class="text-danger">
+              <?= $erreur['description'] ?>
+            </p>
           <?php endif; ?>
-      </div>
-      <div class="mt-3">
-        <button name="submit_btn" type="submit">Valider</button>
-      </div>
-    </form>
+        </div>
+        <div class="mt-3">
+          <button name="submit_btn" type="submit">Valider</button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
