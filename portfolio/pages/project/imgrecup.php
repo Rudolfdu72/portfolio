@@ -1,7 +1,5 @@
 <?php
 // include ROOT_PATH . '/components/header.php';
-
-destroyingSession();
 $erreur = [];
 if (isset($_POST['submit_btn'])) {
   $titre = $_POST['titre'];

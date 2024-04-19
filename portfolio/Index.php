@@ -38,11 +38,11 @@ $projects = $req->fetchAll();
           <?= $skill['nom'] ?>
         </label>
         <?php
-          $niveau = intval($skill['niveau']);
+        $niveau = intval($skill['niveau']);
         ?>
         <div class="progress m-1">
-          <div class="progress-bar bg-danger" role="progressbar" style="width:<?= $niveau?>%"
-            aria-valuenow="<?= $niveau?>" aria-valuemin="0" aria-valuemax="100">
+          <div class="progress-bar bg-danger" role="progressbar" style="width:<?= $niveau ?>%"
+            aria-valuenow="<?= $niveau ?>" aria-valuemin="0" aria-valuemax="100">
             <?= $skill['niveau'] ?>
           </div>
         </div>
@@ -51,16 +51,15 @@ $projects = $req->fetchAll();
     <!-- traitement de l'image -->
     <div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
       <div class="mt-5">
-        <form method="POST" action="upload.php">
-          <button type="submit" name="telecharger">Téléchargez mon cv</button>
-        </form>
-
+        <p>
+          <a href="./donload.php" class="btn btn-dark" target="_blank">Télécharger mon CV</a>
+        </p>
       </div>
     </div>
   </div>
 </div>
 <!-- Bloc projets -->
-<div class="mb-5">
+<div class="mt-5">
   <h1 class="text-center" id="projets">Mes projets réalisés</h1>
   <p class="text-center">Quelques uns de mes projets réalisés</p>
 </div>
@@ -70,11 +69,15 @@ $projects = $req->fetchAll();
     <?php foreach ($projects as $project): ?>
       <div class="col-12 col-md-4 mb-3">
         <div>
-          <h2><?= $project['titre']?></h2>
-          <img src="./upload/<?= $project['photo']?>" alt="illustration" srcset=""/>
+          <h2>
+            <?= $project['titre'] ?>
+          </h2>
+          <img src="./upload/<?= $project['photo'] ?>" alt="illustration" class="donload" srcset="" />
         </div>
         <div>
-          <p><?= $project['description']?></p>
+          <p class="pt-3">
+            <?= $project['description'] ?>
+          </p>
         </div>
       </div>
     <?php endforeach; ?>

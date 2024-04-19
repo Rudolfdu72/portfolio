@@ -2,14 +2,12 @@
 session_start();
 include '../path.php';
 include ROOT_PATH . '/components/header.php';
-
 if (isset($_POST['submit'])) {
   $pseudo_saisi = htmlspecialchars($_POST['pseudo']);
   $password_saisi = htmlspecialchars($_POST['password']);
   if (empty($pseudo_saisi)) {
     $_SESSION['pseudo'] = "Veuillez entrer un pseudo valide";
   }
-
   if (empty($password_saisi)) {
     $_SESSION['password'] = "Veuillez entrer un password valide";
   } else {
@@ -20,7 +18,7 @@ if (isset($_POST['submit'])) {
     $user = $stmt->fetch();
     if ($user !== false) {
       if (password_verify($password_saisi, $user["password"])) {
-        $_SESSION['user'] = $user;
+        $_SESSION['user'] = $user; 
         header('Location:' . BASE_URL . '/admin/index.php');
       }
     }

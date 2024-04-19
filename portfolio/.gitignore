@@ -2,3 +2,5 @@ node_modules
 
 /vendor/
 ./assets/images/
+./assets/librairie/
+./telechargement/

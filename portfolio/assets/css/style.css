@@ -82,3 +82,25 @@ tfoot td {
   align-items: center;
 }
 
+img.donload{
+  height: 350px;
+  width: 300px;
+}
+
+.img_display{
+  display: flex;
+  align-items: center;
+  width: 20%;
+}
+
+
+
+@media (max-width: 768px) {
+  ul{
+    background-color: rgb(0, 0, 0);
+    opacity: 0.5;
+    width: 320px;
+  }
+  
+}
+

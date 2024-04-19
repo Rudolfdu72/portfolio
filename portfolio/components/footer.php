@@ -2,24 +2,25 @@
   <div class="container_fluid">
     <div class="d-flex justify-content-center text-white pt-2">
       <span>
-        <a href="https://www.instagram.com/passion_dev35/" target="_blank">
-          <i class="fa-brands fa-instagram me-3"></i>
+        <a href="https://www.instagram.com/passion_dev35/" target="_blank" class="m-2>
+        <i class="bi bi-instagram"></i>
         </a>
         </i>
       </span>
       <span>
-        <a href="https://www.facebook.com/" target="_blank">
-          <i class="fa-brands fa-facebook me-3"></i>
+        <a href="https://www.facebook.com/" target="_blank" class="m-2">
+        <i class="bi bi-facebook"></i>
+        </a>
+      
+      </span>
+      <span>
+        <a href="https://twitter.com/?lang=fr" target="_blank" class="m-2">
+        <i class="bi bi-twitter"></i>
         </a>
       </span>
       <span>
-        <a href="https://twitter.com/?lang=fr" target="_blank">
-          <i class="fa-brands fa-twitter me-3"></i>
-        </a>
-      </span>
-      <span>
-        <a href="https://www.linkedin.com/feed/" target="_blank">
-          <i class="fa-brands fa-linkedin me-3"></i>
+        <a href="https://www.linkedin.com/feed/" target="_blank" class="m-2">
+        <i class="bi bi-linkedin"></i>
         </a>
       </span>
     </div>

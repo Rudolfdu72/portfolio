@@ -1,0 +1,33 @@
+label{
+  display: inline-block;
+  width: 150px;
+  padding: 10px;
+}
+
+body{
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(247, 247, 247);
+}
+
+.input-width{
+  width: 300px;
+  padding: 10px;
+  margin: 8px 0 8px;
+}
+
+h1{
+  text-align: center;
+}
+
+#submit{
+  width: 150px;
+  padding: 10px;
+  background: rgb(22, 22, 89);
+  color: white;
+  margin-left: 174px;
+  margin-top: 10px;
+}
